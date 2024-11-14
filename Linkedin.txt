@@ -1,0 +1,88 @@
+****Day1 => 
+create project from the scratch =>(Javascript) =>
+ npx create-expo-app@latest linkedinui -t tabs =>Done
+
+upgrade project => Done
+tailwind css => Done
+change icon,adaptive icon, splash screen  (figma)=> Done
+Power cut
+
+
+****Day 2 => 
+now prebuild => wait 8 mins => Done
+ - npx expo prebuild
+ -npx expo run:android
+lets check=>Done
+create tabs => home,video,my network,notifications,jobs =>Done
+create Drawer =>
+
+
+
+****Day 3 => 
+lets check=>Done
+Design Drawer=>Done
+create Sign in Page=>Done
+
+
+****Day 4 => 
+npm install @clerk/clerk-expo=>Done
+npm install expo-secure-store =>Done
+created env => done
+authentication=>Done
+publishableKey & tokenCache=>Done
+redirect=> Done
+password show=>Show
+I have combined email and Google sign-in(Clerk) using ChatGPT.
+signIn=>Done
+bundler issue=>Done
+
+
+
+****Day 5 => 
+lets check=>Done
+modify drawer =>Done
+edit icon change =>Done
+
+design profile Page=>
+Name,Skills,Location =>done
+About=>done
+Featured=>done
+Activity=>done
+
+Home page => posts & reaction =>Done
+
+
+****Day 6 => 
+note:As Firebase changed plans, you cannot create a free bucket. Luckily, I already created a project few days back I'm using that.
+
+firefase setup =>
+npm install firebase
+create firebaseConfig.js file
+
+change tab layout =>Done 
+fix bottom tabbar over keyboard=>Done 
+create Post=>change header ,expo image setup
+my network tab
+notification tab
+working Edit button
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

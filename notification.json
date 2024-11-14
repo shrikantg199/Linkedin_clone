@@ -1,0 +1,83 @@
+[
+  {
+    "id": "1",
+    "type": "connection_request",
+    "message": "John Doe sent you a connection request.",
+    "timestamp": "2024-11-12T08:15:00Z",
+    "read": false,
+
+    "imageUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png"
+  },
+  {
+    "id": "2",
+    "type": "job_alert",
+    "message": "New job opening: Frontend Developer at TechCorp.",
+    "timestamp": "2024-11-12T09:30:00Z",
+    "read": true,
+    "imageUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png"
+  },
+  {
+    "id": "3",
+    "type": "profile_view",
+    "message": "Alice Smith viewed your profile.",
+    "timestamp": "2024-11-11T14:20:00Z",
+    "read": false,
+    "imageUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png"
+  },
+  {
+    "id": "4",
+    "type": "post_reaction",
+    "message": "Your post received a reaction from Michael Lee.",
+    "timestamp": "2024-11-10T12:45:00Z",
+    "read": true,
+    "imageUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png"
+  },
+  {
+    "id": "5",
+    "type": "job_application_status",
+    "message": "Your application for the Backend Developer role at InnovateX is being reviewed.",
+    "timestamp": "2024-11-11T10:10:00Z",
+    "read": false,
+    "imageUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png"
+  },
+  {
+    "id": "6",
+    "type": "network_milestone",
+    "message": "Congratulations! You reached 500 connections.",
+    "timestamp": "2024-11-09T18:00:00Z",
+    "read": true,
+    "imageUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png"
+  },
+  {
+    "id": "7",
+    "type": "message_received",
+    "message": "You have a new message from Laura Adams.",
+    "timestamp": "2024-11-12T05:50:00Z",
+    "read": false,
+    "imageUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png"
+  },
+  {
+    "id": "8",
+    "type": "post_comment",
+    "message": "Your post was commented on by Peter Jones.",
+    "timestamp": "2024-11-10T16:30:00Z",
+    "read": true,
+    "imageUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png"
+  },
+  {
+    "id": "9",
+    "type": "event_invitation",
+    "message": "You are invited to 'Tech Leaders Meetup 2024'.",
+    "timestamp": "2024-11-08T20:45:00Z",
+    "read": false,
+    "imageUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png"
+  },
+  {
+    "id": "10",
+    "type": "article_recommendation",
+    "message": "Read: 'Top Skills for 2025' recommended for you.",
+    "timestamp": "2024-11-12T07:15:00Z",
+    "read": false,
+    "imageUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png"
+  }
+]

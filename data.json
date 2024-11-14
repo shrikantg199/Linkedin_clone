@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "title": "Software Engineer",
+    "company": "Tech Innovators Inc.",
+    "location": "San Francisco, CA, USA",
+    "profilePicUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png",
+    "bannerPicUrl": "",
+    "connections": 500,
+    "about": "Passionate about building scalable web applications. Experienced in full-stack development.",
+    "skills": ["JavaScript", "React", "Node.js"],
+    "posts": [
+      {
+        "postId": 101,
+        "content": "Excited to share my latest project using React and Node.js! 🚀",
+        "mediaUrl": "https://pbs.twimg.com/media/GUZVgvuX0AAUfun?format=jpg&name=medium",
+        "likes": 150,
+        "comments": 20
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "title": "Digital Marketing Specialist",
+    "company": "Creative Media Solutions",
+    "location": "London, UK",
+    "profilePicUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png",
+    "bannerPicUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png",
+    "connections": 800,
+    "about": "Expert in SEO and content marketing. Helping brands grow their online presence.",
+    "skills": ["SEO", "Content Marketing", "Google Analytics"],
+    "posts": [
+      {
+        "postId": 102,
+        "content": "Just launched a new SEO campaign for a client and the results are already amazing! 📈",
+        "mediaUrl": "https://pbs.twimg.com/media/GUZVgvuX0AAUfun?format=jpg&name=medium",
+        "likes": 200,
+        "comments": 30
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Samuel Lee",
+    "title": "Data Scientist",
+    "company": "DataTech Labs",
+    "location": "Toronto, ON, Canada",
+    "profilePicUrl": "https://cdn-icons-png.flaticon.com/512/11789/11789135.png",
+    "bannerPicUrl": "",
+    "connections": 300,
+    "about": "Data enthusiast with a passion for finding patterns in complex datasets.",
+    "skills": ["Python", "Machine Learning", "Data Analysis"],
+    "posts": [
+      {
+        "postId": 103,
+        "content": "Exploring new machine learning algorithms this week. Stay tuned for updates!",
+        "mediaUrl": "https://pbs.twimg.com/media/GUZVgvuX0AAUfun?format=jpg&name=medium",
+        "likes": 120,
+        "comments": 10
+      }
+    ]
+  }
+]
