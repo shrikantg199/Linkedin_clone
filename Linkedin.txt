@@ -55,13 +55,21 @@ Home page => posts & reaction =>Done
 ****Day 6 => 
 note:As Firebase changed plans, you cannot create a free bucket. Luckily, I already created a project few days back I'm using that.
 
-firefase setup =>
-npm install firebase
-create firebaseConfig.js file
-
 change tab layout =>Done 
 fix bottom tabbar over keyboard=>Done 
-create Post=>change header ,expo image setup
+
+
+firefase setup =>
+npm install firebase=>Done
+create firebaseConfig.js file +>Done
+
+create Post=>
+change header =>Done
+
+expo image setup=>Done
+upload image in firestore
+
+
 my network tab
 notification tab
 working Edit button
