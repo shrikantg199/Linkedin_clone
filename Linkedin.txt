@@ -1,4 +1,4 @@
-****Day1 => 
+****Part 1 => 
 create project from the scratch =>(Javascript) =>
  npx create-expo-app@latest linkedinui -t tabs =>Done
 
@@ -8,7 +8,7 @@ change icon,adaptive icon, splash screen  (figma)=> Done
 Power cut
 
 
-****Day 2 => 
+****Part 2 => 
 now prebuild => wait 8 mins => Done
  - npx expo prebuild
  -npx expo run:android
@@ -18,13 +18,13 @@ create Drawer =>
 
 
 
-****Day 3 => 
+****Part 3 => 
 lets check=>Done
 Design Drawer=>Done
 create Sign in Page=>Done
 
 
-****Day 4 => 
+****Part 4 => 
 npm install @clerk/clerk-expo=>Done
 npm install expo-secure-store =>Done
 created env => done
@@ -38,7 +38,7 @@ bundler issue=>Done
 
 
 
-****Day 5 => 
+****Part 5 => 
 lets check=>Done
 modify drawer =>Done
 edit icon change =>Done
@@ -52,33 +52,39 @@ Activity=>done
 Home page => posts & reaction =>Done
 
 
-****Day 6 => 
-note:As Firebase changed plans, you cannot create a free bucket. Luckily, I already created a project few days back I'm using that.
+****Part 6 => 
+note:As Firebase changed plans, you cannot create a free bucket. Luckily, I already created a project few Parts back I'm using that.
 
 change tab layout =>Done 
 fix bottom tabbar over keyboard=>Done 
-
-
-firefase setup =>
+firefase setup =>Done
 npm install firebase=>Done
 create firebaseConfig.js file +>Done
-
-create Post=>
+create Post=>Done
 change header =>Done
-
 expo image setup=>Done
-upload image in firestore
-
-
-my network tab
-notification tab
-working Edit button
+upload image in firestore=>Done
 
 
 
+****Part 7 => now i am using cursor for fast coding
+
+lets check=>Done
+seperate auth layout=>Done
+create  post=>Done
+working Edit buttons=> Basic info
+name,headline,location =>editprofile
+save in database=>Done
 
 
 
+
+****Part 8 => 
+refreshing
+about
+banner image=> 
+profile image=>
+posts=>
 
 
 

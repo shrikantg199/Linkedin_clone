@@ -1,5 +1,6 @@
 import {
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -15,12 +16,37 @@ import { TouchableOpacity } from "react-native";
 import { db, storage } from "./../../../firebaseConfig";
 import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
 import uuid from "react-native-uuid";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useUser } from "@clerk/clerk-expo";
 const Post = () => {
   const navigation = useNavigation();
   const router = useRouter();
   const [image, setImage] = useState(null);
+  const [content, setContent] = useState("");
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const { user } = useUser();
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener(
+      "keyboardDidShow",
+      handleKeyboardShow
+    );
+    const hideSubscription = Keyboard.addListener(
+      "keyboardDidHide",
+      handleKeyboardHide
+    );
 
+    return () => {
+      showSubscription.remove();
+    };
+  }, []);
+
+  const handleKeyboardShow = (event) => {
+    setIsKeyboardVisible(true);
+  };
+
+  const handleKeyboardHide = (event) => {
+    setIsKeyboardVisible(false);
+  };
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -62,11 +88,14 @@ const Post = () => {
     }
     try {
       await addDoc(collection(db, "posts"), {
+        content: content,
         imageUrl: imageUrl,
+        createdAt: serverTimestamp(),
+        email: user?.emailAddresses[0]?.emailAddress,
       });
       console.log("Post added to Firestore successfully.");
       alert("Post created successfully!");
-
+      setContent("");
       setImage(null);
       router.back(); // Navigate back after successful post
     } catch (error) {
@@ -110,6 +139,8 @@ const Post = () => {
           className="text-2xl"
           multiline
           autoFocus={true}
+          value={content}
+          onChangeText={(text) => setContent(text)}
         />
         {image && (
           <Image source={{ uri: image }} className="h-96 w-full mt-10" />
@@ -117,7 +148,9 @@ const Post = () => {
       </View>
       <TouchableOpacity
         onPress={pickImage}
-        className="absolute bottom-36 right-10 bg-blue-600 px-3 py-3 rounded-full "
+        className={`absolute  right-6 bg-blue-600 px-4 py-4 rounded-full ${
+          isKeyboardVisible ? "bottom-28" : "bottom-44"
+        }`}
       >
         {/* image icon */}
         <FontAwesome5 name="photo-video" size={20} color="white" />

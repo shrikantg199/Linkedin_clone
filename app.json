@@ -11,6 +11,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
+    "developmentClient": {
+      "silentLaunch": true
+    },
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -25,10 +28,16 @@
         "backgroundColor": "#ffffff"
       },
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.its_shri_20.linkedinui"
+      "package": "com.its_shri_20.linkedinui",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "extra": {
-      "enableFastRefresh": true
+      "enableFastRefresh": true,
+      "eas": {
+        "projectId": "a4776915-df0b-46ce-b956-23dbe79c6296"
+      }
     },
     "web": {
       "bundler": "metro",

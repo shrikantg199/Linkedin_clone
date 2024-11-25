@@ -174,7 +174,7 @@ const SignIn = () => {
           onPress={onGoogleSignInPress}
           className="border border-gray-400 rounded-3xl px-10 py-3 flex flex-row items-center"
         >
-          <Image source={require("../assets/google.png")} className="h-8 w-8" />
+          <Image source={require("../../assets/google.png")} className="h-8 w-8" />
           <Text>Sign In with Google</Text>
         </TouchableOpacity>
       </View>

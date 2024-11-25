@@ -9,7 +9,7 @@ const Reaction = () => {
         <MaterialIcons name="thumb-up-off-alt" size={24} color="black" />
         <Text>Like</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity className="flex items-center">
         <MaterialCommunityIcons
           name="message-reply-text-outline"
           size={24}

@@ -28,7 +28,10 @@ const CustomDrawer = (props) => {
           <View className="px-2 py-3 rounded-xl flex flex-row items-center border-dashed border-black border-2 m-[2px]">
             {/* icon */}
             <Entypo name="plus" size={24} color="gray" />
-            <Text className="text-gray-400 font-bold text-xl "> Experience</Text>
+            <Text className="text-gray-400 font-bold text-xl ">
+              {" "}
+              Experience
+            </Text>
           </View>
         </TouchableOpacity>
         <View className="border-b border-gray-300 h-4 my-2" />
@@ -37,7 +40,7 @@ const CustomDrawer = (props) => {
           <Text className="text-2xl font-bold">Groups</Text>
         </View>
         <View className="border-b border-gray-300 h-4 my-2" />
-        <View className="absolute bottom-6 flex flex-row gap-2 items-center">
+        <View className="absolute bottom-12 flex flex-row gap-2 items-center">
           {/* icon */}
           <Ionicons name="settings-outline" size={24} color="black" />
           <Text className="text-xl font-bold">Settings</Text>

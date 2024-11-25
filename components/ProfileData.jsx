@@ -1,10 +1,30 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
 import { AntDesign, Entypo, MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
-
+import { useRouter } from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
+import { db } from "../firebaseConfig";
+import { collection, getDocs, query, where } from "firebase/firestore";
 const ProfileData = () => {
+  const router = useRouter();
+  const [userData, setUserData] = useState(null);
+  const { user } = useUser();
+  useEffect(() => {
+    const fetchData = async () => {
+      const email = user.primaryEmailAddress.emailAddress;
+      const userRef = collection(db, "users");
+      const q = query(userRef, where("email", "==", email));
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+        setUserData(doc.data());
+      });
+    };
+    fetchData();
+  }, [user]);
   return (
     <ScrollView>
       <View>
@@ -24,17 +44,23 @@ const ProfileData = () => {
             className="w-32 h-32 border-white border-4 rounded-full"
           />
           {/* edit icon */}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push("/editprofile")}>
             <MaterialIcons name="create" size={24} color="black" />
           </TouchableOpacity>
         </View>
         {/* Name,Skills,Location */}
         <View className="mx-4 py-2">
-          <Text className="text-2xl font-bold">Expo coder</Text>
-          <Text className="text-lg font-bold text-gray-600">
-            React native | Expo
+          <Text className="text-2xl font-bold">
+            {userData
+              ? userData.firstName + " " + userData.lastName
+              : user.fullName}
           </Text>
-          <Text className="font-normal">India</Text>
+          <Text className="text-lg font-bold text-gray-600">
+            {userData ? userData.headline : ""}
+          </Text>
+          <Text className="font-normal">
+            {userData ? userData.location : ""}
+          </Text>
         </View>
       </View>
       {/* About */}
@@ -53,20 +79,20 @@ const ProfileData = () => {
         </Text>
       </View>
       {/* Featured */}
-      <View className="bg-white h-60 mb-3">
+      {/* <View className="bg-white h-60 mb-3">
         <View className="flex flex-row justify-between items-center px-3 p-2">
           <Text className="text-2xl font-bold">Featured</Text>
-          {/* icon */}
+         
           <TouchableOpacity>
             <MaterialIcons name="create" size={24} color="black" />
           </TouchableOpacity>
         </View>
-        {/* Featured */}
+      
         <Text className="p-3">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem a
           nemo nihil animi quis placeat natus facilis ipsa ipsum assumenda.
         </Text>
-      </View>
+      </View> */}
       {/* Activity */}
       <View className="bg-white h-60">
         <View className="flex flex-row justify-between items-center px-3 p-3">

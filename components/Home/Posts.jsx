@@ -8,7 +8,7 @@ const Posts = () => {
   return (
     <View>
       {data.map((item, index) => (
-        <View key={index} className="bg-white h-[400px] w-screen p-2 mb-3 py-2">
+        <View key={index} className="bg-white h-auto w-screen p-2 mb-3 py-2">
           <View className="flex flex-row justify-between items-center">
             <View className="flex flex-row gap-2 p-2">
               <Image
