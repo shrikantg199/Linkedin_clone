@@ -78,13 +78,14 @@ save in database=>Done
 
 
 
-
-****Part 8 => 
-refreshing
-about
-banner image=> 
-profile image=>
-posts=>
+****Part 8 =>
+lets check=>Done
+banner image=> Done
+profile image=>Done
+refreshing =>Done
+loading state =>Done
+about =>Done
+posts
 
 
 

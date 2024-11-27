@@ -23,7 +23,7 @@ const EditProfile = () => {
   const [headline, setHeadline] = useState("");
   const [location, setLocation] = useState("");
   const [userData, setUserData] = useState(null);
-  console.log(userData);
+  // console.log(userData);
   const { user } = useUser();
   const router = useRouter();
   const navigation = useNavigation();

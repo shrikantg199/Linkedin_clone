@@ -1,4 +1,10 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
 import { AntDesign, Entypo, MaterialIcons } from "@expo/vector-icons";
@@ -7,47 +13,49 @@ import { useRouter } from "expo-router";
 import { useUser } from "@clerk/clerk-expo";
 import { db } from "../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import EditBannerImage from "./EditBannerImage";
+import EditProfileImage from "./EditProfileImage";
 const ProfileData = () => {
   const router = useRouter();
   const [userData, setUserData] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
   const { user } = useUser();
   useEffect(() => {
-    const fetchData = async () => {
-      const email = user.primaryEmailAddress.emailAddress;
-      const userRef = collection(db, "users");
-      const q = query(userRef, where("email", "==", email));
-
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        console.log(doc.data());
-        setUserData(doc.data());
-      });
-    };
     fetchData();
-  }, [user]);
+  }, [user, userData]);
+  const fetchData = async () => {
+    const email = user.primaryEmailAddress.emailAddress;
+    const userRef = collection(db, "users");
+    const q = query(userRef, where("email", "==", email));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // console.log(doc.data());
+      setUserData(doc.data());
+    });
+    setRefreshing(false);
+  };
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchData();
+  };
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          colors={["blue"]}
+          onRefresh={onRefresh}
+          refreshing={refreshing}
+        />
+      }
+    >
       <View>
         {/* Profile & banner Image */}
-        <Image
-          source={require("../assets/image.png")}
-          className="w-screen h-44"
-        />
-        <TouchableOpacity className="absolute right-4 top-3 py-2 bg-white px-2 rounded-full">
-          <MaterialIcons name="create" size={24} color="blue" />
-        </TouchableOpacity>
+        <EditBannerImage />
       </View>
       <View className="bg-white py-2 mb-3">
-        <View className="flex flex-row justify-between items-center -mt-12 px-4">
-          <Image
-            source={require("../assets/profile.png")}
-            className="w-32 h-32 border-white border-4 rounded-full"
-          />
-          {/* edit icon */}
-          <TouchableOpacity onPress={() => router.push("/editprofile")}>
-            <MaterialIcons name="create" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
+        <EditProfileImage />
+
         {/* Name,Skills,Location */}
         <View className="mx-4 py-2">
           <Text className="text-2xl font-bold">
@@ -63,36 +71,28 @@ const ProfileData = () => {
           </Text>
         </View>
       </View>
+
       {/* About */}
-      <View className="bg-white h-60 mb-3">
+      <View className="bg-white h-auto mb-3 p-3">
         <View className="flex flex-row justify-between items-center px-3 p-2">
           <Text className="text-2xl font-bold">About</Text>
           {/* icon */}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push("/about")}>
             <MaterialIcons name="create" size={24} color="black" />
           </TouchableOpacity>
         </View>
         {/* about */}
         <Text className="p-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem a
-          nemo nihil animi quis placeat natus facilis ipsa ipsum assumenda.
+          {userData && userData.about ? (
+            userData?.about
+          ) : (
+            <View>
+              <Text className="text-gray-400 text-3xl">Add About</Text>
+            </View>
+          )}
         </Text>
       </View>
-      {/* Featured */}
-      {/* <View className="bg-white h-60 mb-3">
-        <View className="flex flex-row justify-between items-center px-3 p-2">
-          <Text className="text-2xl font-bold">Featured</Text>
-         
-          <TouchableOpacity>
-            <MaterialIcons name="create" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
-      
-        <Text className="p-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem a
-          nemo nihil animi quis placeat natus facilis ipsa ipsum assumenda.
-        </Text>
-      </View> */}
+
       {/* Activity */}
       <View className="bg-white h-60">
         <View className="flex flex-row justify-between items-center px-3 p-3">
