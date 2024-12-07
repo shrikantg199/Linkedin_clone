@@ -32,6 +32,7 @@ import { useUser } from "@clerk/clerk-expo";
 const EditProfileImage = () => {
   const [image, setImage] = useState(null);
   const [userData, setUserData] = useState("");
+
   const router = useRouter();
   const { user } = useUser();
   const pickImage = async () => {
@@ -91,7 +92,7 @@ const EditProfileImage = () => {
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          console.log("Fetched user data:", data);
+          // console.log("Fetched user data:", data);
           setUserData(data); // Set user data
         });
       } else {
@@ -101,6 +102,7 @@ const EditProfileImage = () => {
       console.error("Error fetching user data: ", error);
     }
   };
+
   return (
     <View className="flex flex-row justify-between items-center -mt-12 px-4">
       <TouchableOpacity onPress={pickImage}>

@@ -17,7 +17,7 @@ const Reaction = () => {
         />
         <Text className="">comments</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity className="flex items-center">
         <MaterialCommunityIcons
           name="rotate-3d-variant"
           size={24}

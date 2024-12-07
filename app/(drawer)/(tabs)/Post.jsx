@@ -16,7 +16,16 @@ import { TouchableOpacity } from "react-native";
 import { db, storage } from "./../../../firebaseConfig";
 import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
 import uuid from "react-native-uuid";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  getDocs,
+  query,
+  serverTimestamp,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { useUser } from "@clerk/clerk-expo";
 const Post = () => {
   const navigation = useNavigation();
@@ -87,14 +96,29 @@ const Post = () => {
       imageUrl = await uploadImage(image);
     }
     try {
-      await addDoc(collection(db, "posts"), {
-        content: content,
-        imageUrl: imageUrl,
-        createdAt: serverTimestamp(),
-        email: user?.emailAddresses[0]?.emailAddress,
+      const userEmail = user.primaryEmailAddress.emailAddress;
+
+      const userCollectionRef = collection(db, "users");
+      const q = query(userCollectionRef, where("email", "==", userEmail));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        alert("document not found");
+        console.log("document not found");
+        return;
+      }
+      const userDocREf = querySnapshot.docs[0].ref;
+
+      await updateDoc(userDocREf, {
+        posts: arrayUnion({
+          post_id: uuid.v4(),
+          content: content,
+          imageUrl: imageUrl,
+          createdAt: serverTimestamp(),
+          email: user?.emailAddresses[0]?.emailAddress,
+          createdAt: new Date(),
+        }),
       });
-      console.log("Post added to Firestore successfully.");
-      alert("Post created successfully!");
+      alert("post created successfully....");
       setContent("");
       setImage(null);
       router.back(); // Navigate back after successful post
@@ -111,7 +135,7 @@ const Post = () => {
         // icon
         <Entypo
           onPress={() => {
-            console.log("Back button pressed");
+            // console.log("Back button pressed");
             router.back();
           }}
           name="cross"

@@ -1,25 +1,48 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 const CustomDrawer = (props) => {
   const router = useRouter();
+  const [userData, setUserData] = useState("");
+  const { user } = useUser();
+  useEffect(() => {
+    fetchData();
+  }, [user]);
+  const fetchData = async () => {
+    const email = user.primaryEmailAddress.emailAddress;
+    const userRef = collection(db, "users");
+    const q = query(userRef, where("email", "==", email));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      // console.log(data);
+      setUserData(data);
+    });
+  };
+
   return (
     <DrawerContentScrollView {...props}>
       <View className="mx-6 h-screen">
-        <TouchableOpacity onPress={() => router.push("/profile")}>
+        <TouchableOpacity
+          onPress={() => router.push(`/profile/${userData.userName}`)}
+        >
           <Image
-            source={require("../assets/profile.png")}
+            source={{ uri: userData?.profileImage }}
             className="w-20 h-20"
           />
         </TouchableOpacity>
         <View>
-          <Text className="text-2xl font-bold">Expo Coder</Text>
+          <Text className="text-2xl font-bold">{userData.firstName}</Text>
           <Text className="text-lg  ">React Native | Expo </Text>
           <Text className="text-xl  text-gray-500 font-bold">Location</Text>
         </View>

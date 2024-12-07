@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   StyleSheet,
   Text,
@@ -30,7 +31,7 @@ import { Entypo } from "@expo/vector-icons";
 const About = () => {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [about, setAbout] = useState("");
-
+  const [loading, setLoading] = useState(true);
   const { user } = useUser();
   const router = useRouter();
   const navigation = useNavigation();
@@ -43,7 +44,7 @@ const About = () => {
         // icon
         <Entypo
           onPress={() => {
-            console.log("Back button pressed");
+            // console.log("Back button pressed");
             router.back();
           }}
           name="cross"
@@ -100,13 +101,13 @@ const About = () => {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Edit Profile",
+      headerTitle: "Edit About",
       headerTitleAlign: "center",
       headerLeft: () => (
         // icon
         <Entypo
           onPress={() => {
-            console.log("Back button pressed");
+            // console.log("Back button pressed");
             router.back();
           }}
           name="cross"
@@ -140,8 +141,16 @@ const About = () => {
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       setAbout(data.about);
+      setLoading(false);
     });
   };
+  if (loading) {
+    return (
+      <View className="mt-20">
+        <ActivityIndicator size="large" className="flex-1 " color={"blue"} />
+      </View>
+    );
+  }
   return (
     <View>
       <KeyboardAvoidingView

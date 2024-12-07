@@ -2,7 +2,7 @@ import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
 import React, { memo, useEffect, useState } from "react";
 import { useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import ProfileData from "../components/ProfileData";
+
 import { useUser } from "@clerk/clerk-expo";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebaseConfig";
@@ -57,11 +57,9 @@ const profile = () => {
       </View>
     );
   }
-  return (
-    <View>
-      <ProfileData />
-    </View>
-  );
+  return <View>
+    {/*  */}
+  </View>;
 };
 
 export default profile;

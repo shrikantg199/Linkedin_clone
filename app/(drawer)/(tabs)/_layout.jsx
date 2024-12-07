@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TextInput, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect, Tabs, useNavigation } from "expo-router";
 import {
   AntDesign,
@@ -13,12 +13,33 @@ import { useAuth } from "@clerk/clerk-expo";
 import { TouchableOpacity } from "react-native";
 import { DrawerActions } from "@react-navigation/native";
 // if not signed in redirect to /signin
+import { useUser } from "@clerk/clerk-expo";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../../firebaseConfig";
 const TabLayout = () => {
   const navigation = useNavigation();
+  const { user } = useUser();
   const { isSignedIn } = useAuth();
+  const [userData, setUserData] = useState();
   if (!isSignedIn) {
     return <Redirect href={"/signin"} />;
   }
+  useEffect(() => {
+    fetchData();
+  }, [user]);
+  const fetchData = async () => {
+    const email = user.primaryEmailAddress.emailAddress;
+    const userRef = collection(db, "users");
+    const q = query(userRef, where("email", "==", email));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      // console.log(data);
+      setUserData(data);
+    });
+  };
+
   return (
     <Tabs
       screenOptions={{
@@ -37,7 +58,7 @@ const TabLayout = () => {
             className="mx-2"
           >
             <Image
-              source={require("../../../assets/profile.png")}
+              source={{ uri: userData.profileImage }}
               className="h-12 w-12"
             />
           </TouchableOpacity>

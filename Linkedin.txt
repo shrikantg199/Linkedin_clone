@@ -85,7 +85,20 @@ profile image=>Done
 refreshing =>Done
 loading state =>Done
 about =>Done
-posts
+
+****Part 9=>
+lets check=>Done
+lets add multiple posts logic =>Done
+dynamic routes=>Done
+fetch posts=>Done
+
+
+
+****Part 10=>
+modification in drawer =>
+activity =>
+
+
 
 
 

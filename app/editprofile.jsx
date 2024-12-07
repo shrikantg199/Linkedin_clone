@@ -7,6 +7,7 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-expo";
@@ -23,9 +24,12 @@ const EditProfile = () => {
   const [headline, setHeadline] = useState("");
   const [location, setLocation] = useState("");
   const [userData, setUserData] = useState(null);
+  const [userName, setUserName] = useState("");
+
   // console.log(userData);
   const { user } = useUser();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
   useEffect(() => {
     navigation.setOptions({
@@ -36,7 +40,7 @@ const EditProfile = () => {
         // icon
         <Entypo
           onPress={() => {
-            console.log("Back button pressed");
+            // console.log("Back button pressed");
             router.back();
           }}
           name="cross"
@@ -68,19 +72,22 @@ const EditProfile = () => {
   };
   useEffect(() => {
     // fetch users data
-    const fetchUserData = async () => {
-      const userDocRef = doc(db, "users", user.id);
-      const userDocSnap = await getDoc(userDocRef);
-      if (userDocSnap.exists()) {
-        const data = userDocSnap.data();
-        setFirstName(data.firstName || "");
-        setLastName(data.lastName || "");
-        setHeadline(data.headline || "");
-        setLocation(data.location || "");
-      }
-    };
+
     fetchUserData();
   }, [user]);
+  const fetchUserData = async () => {
+    const userDocRef = doc(db, "users", user.id);
+    const userDocSnap = await getDoc(userDocRef);
+    if (userDocSnap.exists()) {
+      const data = userDocSnap.data();
+      setFirstName(data.firstName || "");
+      setLastName(data.lastName || "");
+      setHeadline(data.headline || "");
+      setLocation(data.location || "");
+    }
+    setLoading(false);
+  };
+
   const handleSave = async () => {
     // console.log(firstName, lastName, headline, location);
     if (user) {
@@ -97,6 +104,7 @@ const EditProfile = () => {
             headline,
             location,
             email,
+            userName,
           });
           // alert user
           Alert.alert("Success", "Profile updated successfully");
@@ -109,6 +117,7 @@ const EditProfile = () => {
             headline,
             location,
             email,
+            userName,
           });
           router.back();
           // alert user
@@ -119,6 +128,13 @@ const EditProfile = () => {
       }
     }
   };
+  if (loading) {
+    return (
+      <View className="mt-20">
+        <ActivityIndicator size="large" className="flex-1 " color={"blue"} />
+      </View>
+    );
+  }
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -137,6 +153,12 @@ const EditProfile = () => {
             className="focus:border-b-2 p-2 border-b"
             value={lastName}
             onChangeText={(text) => setLastName(text)}
+          />
+          <TextInput
+            placeholder="Username"
+            className="focus:border-b-2 p-2 border-b"
+            value={userName}
+            onChangeText={(text) => setUserName(text)}
           />
           <TextInput
             placeholder="headline"

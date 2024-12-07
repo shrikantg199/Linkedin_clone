@@ -7,22 +7,33 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
-import { AntDesign, Entypo, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, Entypo, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
-import { useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { useUser } from "@clerk/clerk-expo";
-import { db } from "../firebaseConfig";
+import { db } from "../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import EditBannerImage from "./EditBannerImage";
-import EditProfileImage from "./EditProfileImage";
-const ProfileData = () => {
+import EditBannerImage from "../../components/EditBannerImage";
+import EditProfileImage from "../../components/EditProfileImage";
+const UserProfile = () => {
   const router = useRouter();
   const [userData, setUserData] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const { user } = useUser();
+  const [username, setUsername] = useState("");
+  const navigation = useNavigation();
   useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: username,
+      headerTitleAlign: "center",
+      headerRight: () => (
+        // setting icon
+        <Ionicons name="settings-sharp" size={24} color="black" />
+      ),
+    });
     fetchData();
-  }, [user, userData]);
+  }, [user, userData, navigation, username]);
   const fetchData = async () => {
     const email = user.primaryEmailAddress.emailAddress;
     const userRef = collection(db, "users");
@@ -31,7 +42,9 @@ const ProfileData = () => {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       // console.log(doc.data());
-      setUserData(doc.data());
+      const data = doc.data();
+      setUserData(data);
+      setUsername(data.firstName + " " + data.lastName);
     });
     setRefreshing(false);
   };
@@ -106,7 +119,7 @@ const ProfileData = () => {
         <View className="flex flex-row justify-between p-2">
           <View className="flex flex-row gap-2">
             <Image
-              source={require("../assets/profile.png")}
+              source={require("../../assets/profile.png")}
               className="w-16 h-16  border-4 rounded-full"
             />
             <View className="">
@@ -126,6 +139,6 @@ const ProfileData = () => {
   );
 };
 
-export default ProfileData;
+export default UserProfile;
 
 const styles = StyleSheet.create({});
