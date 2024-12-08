@@ -3,60 +3,55 @@ import React from "react";
 import Reactions from "../Home/Reaction";
 import { Entypo } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useUser } from "@clerk/clerk-expo";
 
 const Posts = ({ userData }) => {
   const router = useRouter();
-  console.log(userData);
+
   return (
-    <View className="">
+    <View>
       {userData && userData.length > 0 ? (
         userData.flatMap((user, userIndex) =>
           user.posts && user.posts.length > 0 ? (
             user.posts.map((post, postIndex) => {
-              // If post data is missing or empty
-              if (!post || !post.content) {
-                return (
-                  <View
-                    key={`${userIndex}-${postIndex}`}
-                    className="bg-white p-2 h-auto mb-3"
-                  >
-                    <Text className="text-center text-gray-500">
-                      No content available
-                    </Text>
-                  </View>
-                );
-              }
+              const profileImageUri = user.profileImage || null;
+              const postImageUri = post.imageUrl || null;
 
               return (
                 <View
                   key={`${userIndex}-${postIndex}`}
                   className="bg-white p-2 h-auto mb-3"
                 >
+                  {/* Header Section */}
                   <View className="flex flex-row justify-between items-center">
                     <View className="flex flex-row gap-3">
                       <TouchableOpacity
                         onPress={() =>
-                          router.push(`/profile/${userData.userName}`)
+                          router.push(`/profile/${user.userName}`)
                         }
                       >
-                        <Image
-                          source={{ uri: user.profileImage }}
-                          className="w-16 h-16 border-white border-4 rounded-full"
-                        />
+                        {profileImageUri && profileImageUri !== null ? (
+                          <Image
+                            source={{ uri: profileImageUri }}
+                            className="w-16 h-16 border-white border-4 rounded-full"
+                          />
+                        ) : (
+                          <View className="w-16 h-16 bg-gray-300 border-white border-4 rounded-full flex items-center justify-center">
+                            <Text className="text-white text-sm">No Image</Text>
+                          </View>
+                        )}
                       </TouchableOpacity>
-                      <View className="">
+                      <View>
                         <View className="flex flex-row gap-2">
                           <Text className="font-bold text-xl">
-                            {user.firstName}
+                            {user.firstName || "First Name"}
                           </Text>
                           <Text className="font-bold text-xl">
-                            {user.lastName}
+                            {user.lastName || "Last Name"}
                           </Text>
                         </View>
-                        <Text>{user.headline}</Text>
+                        <Text>{user.headline || "No headline available"}</Text>
                         <Text className="text-sm font-normal text-gray-600">
-                          {user.location}
+                          {user.location || "No location specified"}
                         </Text>
                       </View>
                     </View>
@@ -69,13 +64,14 @@ const Posts = ({ userData }) => {
                     </TouchableOpacity>
                   </View>
 
+                  {/* Post Content Section */}
                   <View className="py-3">
                     <Text className="text-lg font-semibold mx-3">
                       {post.content || "No content available"}
                     </Text>
-                    {post.imageUrl ? (
+                    {postImageUri && postImageUri !== null ? (
                       <Image
-                        source={{ uri: post.imageUrl }}
+                        source={{ uri: postImageUri }}
                         className="w-full h-60 rounded-lg"
                       />
                     ) : (
@@ -85,6 +81,7 @@ const Posts = ({ userData }) => {
                     )}
                   </View>
 
+                  {/* Reactions Section */}
                   <Reactions />
                 </View>
               );

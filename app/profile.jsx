@@ -13,7 +13,7 @@ const profile = () => {
   const [username, setUserName] = useState("");
   const { user } = useUser();
   useEffect(() => {
-    navigation.setOptions({
+    navigation.setOptions({ 
       headerShown: true,
       headerTitle: username,
       headerTitleAlign: "center",

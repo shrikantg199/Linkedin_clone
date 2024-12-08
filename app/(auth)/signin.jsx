@@ -179,7 +179,7 @@ const SignIn = () => {
         </TouchableOpacity>
       </View>
     </SafeAreaView>
-  );
+  ); 
 };
 
 export default SignIn;

@@ -61,6 +61,7 @@ firefase setup =>Done
 npm install firebase=>Done
 create firebaseConfig.js file +>Done
 create Post=>Done
+
 change header =>Done
 expo image setup=>Done
 upload image in firestore=>Done
@@ -75,6 +76,7 @@ create  post=>Done
 working Edit buttons=> Basic info
 name,headline,location =>editprofile
 save in database=>Done
+
 
 
 

@@ -11,4 +11,4 @@ const MyNetwork = () => {
 
 export default MyNetwork
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({}) 

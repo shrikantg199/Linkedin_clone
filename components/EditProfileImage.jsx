@@ -30,7 +30,7 @@ import {
 } from "firebase/firestore";
 import { useUser } from "@clerk/clerk-expo";
 const EditProfileImage = () => {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
   const [userData, setUserData] = useState("");
 
   const router = useRouter();
@@ -108,8 +108,8 @@ const EditProfileImage = () => {
       <TouchableOpacity onPress={pickImage}>
         <Image
           source={
-            userData.bannerImage
-              ? { uri: userData.profileImage }
+            userData?.profileImage && userData?.profileImage !== null
+              ? { uri: userData?.profileImage }
               : require("../assets/profile.png")
           }
           className="w-32 h-32 border-white border-4 rounded-full"

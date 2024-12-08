@@ -30,7 +30,7 @@ import {
 } from "firebase/firestore";
 import { useUser } from "@clerk/clerk-expo";
 const EditBannerImage = () => {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
   const [userData, setUserData] = useState("");
   const { user } = useUser();
   const pickImage = async () => {
@@ -104,13 +104,13 @@ const EditBannerImage = () => {
     <View>
       <Image
         source={
-          userData.bannerImage
-            ? { uri: userData.bannerImage }
+          userData?.bannerImage && userData?.bannerImage !== null
+            ? { uri: userData?.bannerImage }
             : require("../assets/image.png")
         }
         className="w-screen h-44"
       />
-
+ 
       <TouchableOpacity
         onPress={pickImage}
         className="absolute right-4 top-3 py-2 bg-white px-2 rounded-full"

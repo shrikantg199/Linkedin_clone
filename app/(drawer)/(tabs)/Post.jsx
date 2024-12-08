@@ -30,7 +30,7 @@ import { useUser } from "@clerk/clerk-expo";
 const Post = () => {
   const navigation = useNavigation();
   const router = useRouter();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
   const [content, setContent] = useState("");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const { user } = useUser();
@@ -120,7 +120,7 @@ const Post = () => {
       });
       alert("post created successfully....");
       setContent("");
-      setImage(null);
+      setImage("");
       router.back(); // Navigate back after successful post
     } catch (error) {
       console.error("Error adding post to Firestore: ", error);

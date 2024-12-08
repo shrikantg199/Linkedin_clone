@@ -51,7 +51,7 @@ const About = () => {
           size={32}
           color="black"
         />
-      ),
+      ), 
     });
     const showSubscription = Keyboard.addListener(
       "keyboardDidShow",

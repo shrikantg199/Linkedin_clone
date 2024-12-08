@@ -15,15 +15,16 @@ import { db } from "../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import EditBannerImage from "../../components/EditBannerImage";
 import EditProfileImage from "../../components/EditProfileImage";
+import Activity from "../../components/Activity";
 const UserProfile = () => {
   const router = useRouter();
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const { user } = useUser();
   const [username, setUsername] = useState("");
   const navigation = useNavigation();
   useEffect(() => {
-    navigation.setOptions({
+    navigation.setOptions({ 
       headerShown: true,
       headerTitle: username,
       headerTitleAlign: "center",
@@ -105,36 +106,7 @@ const UserProfile = () => {
           )}
         </Text>
       </View>
-
-      {/* Activity */}
-      <View className="bg-white h-60">
-        <View className="flex flex-row justify-between items-center px-3 p-3">
-          <Text className="text-2xl font-bold">Activity</Text>
-          {/* icon */}
-          <TouchableOpacity>
-            <MaterialIcons name="create" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
-        {/* Activity */}
-        <View className="flex flex-row justify-between p-2">
-          <View className="flex flex-row gap-2">
-            <Image
-              source={require("../../assets/profile.png")}
-              className="w-16 h-16  border-4 rounded-full"
-            />
-            <View className="">
-              <Text className="text-xl font-bold">Expo coder</Text>
-              <Text className="text-lg font-bold text-gray-600">
-                React native | Expo
-              </Text>
-              <Text className="font-normal">India</Text>
-            </View>
-          </View>
-          <Entypo name="dots-three-vertical" size={22} color="black" />
-        </View>
-        {/* posts */}
-        <Text className="p-3">posts</Text>
-      </View>
+      <Activity />
     </ScrollView>
   );
 };

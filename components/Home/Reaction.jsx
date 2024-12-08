@@ -22,7 +22,7 @@ const Reaction = () => {
           name="rotate-3d-variant"
           size={24}
           color="black"
-        />
+        /> 
         <Text>repost</Text>
       </TouchableOpacity>
       <TouchableOpacity className="">

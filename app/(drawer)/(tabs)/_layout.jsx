@@ -20,24 +20,42 @@ const TabLayout = () => {
   const navigation = useNavigation();
   const { user } = useUser();
   const { isSignedIn } = useAuth();
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   if (!isSignedIn) {
     return <Redirect href={"/signin"} />;
   }
+
   useEffect(() => {
     fetchData();
   }, [user]);
-  const fetchData = async () => {
-    const email = user.primaryEmailAddress.emailAddress;
-    const userRef = collection(db, "users");
-    const q = query(userRef, where("email", "==", email));
 
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      // console.log(data);
-      setUserData(data);
-    });
+  const fetchData = async () => {
+    if (!user?.primaryEmailAddress?.emailAddress) return;
+
+    try {
+      setIsLoading(true);
+      const email = user.primaryEmailAddress.emailAddress;
+      const userRef = collection(db, "users");
+      const q = query(userRef, where("email", "==", email));
+
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          setUserData(data || {});
+        });
+      } else {
+        console.log("No matching user data found");
+        setUserData({});
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setUserData({});
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -57,10 +75,22 @@ const TabLayout = () => {
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
             className="mx-2"
           >
-            <Image
-              source={{ uri: userData.profileImage }}
-              className="h-12 w-12"
-            />
+            {isLoading ? (
+              <View className="h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center">
+                <Text className="text-white text-sm">...</Text>
+              </View>
+            ) : (
+              userData?.profileImage ? (
+                <Image
+                  source={{ uri: userData.profileImage }}
+                  className="h-12 w-12 rounded-full"
+                />
+              ) : (
+                <View className="h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center">
+                  <Text className="text-white text-sm">No Image</Text>
+                </View>
+              )
+            )}
           </TouchableOpacity>
         ),
         headerTitle: () => (
