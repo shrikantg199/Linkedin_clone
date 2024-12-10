@@ -8,8 +8,10 @@ import {
   View,
   TouchableOpacity,
   ActivityIndicator,
+  ScrollView,
+  TouchableWithoutFeedback,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useUser } from "@clerk/clerk-expo";
 import { db } from "../firebaseConfig";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
@@ -23,14 +25,16 @@ const EditProfile = () => {
   const [lastName, setLastName] = useState("");
   const [headline, setHeadline] = useState("");
   const [location, setLocation] = useState("");
- 
+
   const [userName, setUserName] = useState("");
- 
+
   // console.log(userData);
   const { user } = useUser();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+  const firstNameInputRef = useRef(null);
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -63,6 +67,11 @@ const EditProfile = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Automatically focus on the first input field when the component mounts
+    firstNameInputRef.current.focus();
+  }, []);
+
   const handleKeyboardShow = (event) => {
     setIsKeyboardVisible(true);
   };
@@ -80,8 +89,8 @@ const EditProfile = () => {
     const userDocSnap = await getDoc(userDocRef);
     if (userDocSnap.exists()) {
       const data = userDocSnap.data();
-      setFirstName(data.firstName || "");
-      setLastName(data.lastName || "");
+      setFirstName(data.firstName || user.firstName || "");
+      setLastName(data.lastName || user.lastName || "");
       setHeadline(data.headline || "");
       setLocation(data.location || "");
     }
@@ -89,7 +98,11 @@ const EditProfile = () => {
   };
 
   const handleSave = async () => {
-    // console.log(firstName, lastName, headline, location);
+    if (!firstName.trim() || !lastName.trim()) {
+      Alert.alert("Error", "First name and last name cannot be empty.");
+      return;
+    }
+    setLoading(true);
     if (user) {
       const uid = user.id;
       const email = user.primaryEmailAddress.emailAddress;
@@ -124,64 +137,73 @@ const EditProfile = () => {
           Alert.alert("Success", "Profile created successfully");
         }
       } catch (error) {
-        Alert.alert("Error", error.message);
+        Alert.alert("Error", `Failed to save profile: ${error.message}`);
       }
     }
+    setFirstName("");
+    setLastName("");
+    setLoading(false);
   };
-  if (loading) {
-    return (
-      <View className="mt-20">
-        <ActivityIndicator size="large" className="flex-1 " color={"blue"} />
-      </View>
-    );
-  }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
     >
-      <View className="bg-white h-screen">
-        <View className="mx-8 my-8 h-screen">
-          <Text className="text-3xl font-bold">Basic Info</Text>
-          <TextInput
-            placeholder="First name"
-            className="focus:border-b-2 p-2 border-b my-3"
-            value={firstName}
-            onChangeText={(text) => setFirstName(text)}
-          />
-          <TextInput
-            placeholder="Last name"
-            className="focus:border-b-2 p-2 border-b"
-            value={lastName}
-            onChangeText={(text) => setLastName(text)}
-          />
-          <TextInput
-            placeholder="Username"
-            className="focus:border-b-2 p-2 border-b"
-            value={userName}
-            onChangeText={(text) => setUserName(text)}
-          />
-          <TextInput
-            placeholder="headline"
-            className="focus:border-b-2 p-2 border-b my-3"
-            value={headline}
-            onChangeText={(text) => setHeadline(text)}
-          />
-          <TextInput
-            placeholder="Location"
-            className="focus:border-b-2 p-2 border-b my-3"
-            value={location}
-            onChangeText={(text) => setLocation(text)}
-          />
-        </View>
-      </View>
-      <TouchableOpacity
-        onPress={handleSave}
-        className={`absolute bg-blue-600 w-full  py-4 flex-row justify-center rounded-full ${
-          isKeyboardVisible ? "bottom-28" : "bottom-28"
-        }`}
-      >
-        <Text className="text-xl text-white">Save</Text>
-      </TouchableOpacity>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View className="bg-white h-auto">
+            <View className="mx-8 my-8">
+              <Text className="text-3xl font-bold">Basic Info</Text>
+              <TextInput
+                ref={firstNameInputRef}
+                placeholder="First name"
+                className="focus:border-b-2 p-2 border-b my-3"
+                value={firstName || user.firstName || "Default First Name"}
+                onChangeText={(text) => setFirstName(text)}
+              />
+              <TextInput
+                placeholder="Last name"
+                className="focus:border-b-2 p-2 border-b"
+                value={lastName || user.lastName || "Default Last Name"}
+                onChangeText={(text) => setLastName(text)}
+              />
+              <TextInput
+                placeholder="Username"
+                className="focus:border-b-2 p-2 border-b"
+                value={userName}
+                onChangeText={(text) => setUserName(text)}
+              />
+              <TextInput
+                placeholder="headline"
+                className="focus:border-b-2 p-2 border-b my-3"
+                value={headline}
+                onChangeText={(text) => setHeadline(text)}
+              />
+              <TextInput
+                placeholder="Location"
+                className="focus:border-b-2 p-2 border-b my-3"
+                value={location}
+                onChangeText={(text) => setLocation(text)}
+              />
+            </View>
+          </View>
+          <TouchableOpacity
+            onPress={handleSave}
+            disabled={loading}
+            className={`absolute bg-blue-600 w-full py-4 flex-row justify-center rounded-full ${
+              isKeyboardVisible ? "bottom-28" : "bottom-28"
+            }`}
+          >
+            <Text className="text-xl text-white">
+              {loading ? "Saving..." : "Save"}
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };

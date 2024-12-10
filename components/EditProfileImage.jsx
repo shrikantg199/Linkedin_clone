@@ -106,7 +106,7 @@ const EditProfileImage = () => {
   return (
     <View className="flex flex-row justify-between items-center -mt-12 px-4">
       <TouchableOpacity onPress={pickImage}>
-        <Image
+        <Image 
           source={
             userData?.profileImage && userData?.profileImage !== null
               ? { uri: userData?.profileImage }

@@ -51,7 +51,7 @@ const About = () => {
           size={32}
           color="black"
         />
-      ), 
+      ),
     });
     const showSubscription = Keyboard.addListener(
       "keyboardDidShow",
@@ -144,13 +144,7 @@ const About = () => {
       setLoading(false);
     });
   };
-  if (loading) {
-    return (
-      <View className="mt-20">
-        <ActivityIndicator size="large" className="flex-1 " color={"blue"} />
-      </View>
-    );
-  }
+
   return (
     <View>
       <KeyboardAvoidingView

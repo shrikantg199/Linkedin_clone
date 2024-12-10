@@ -9,13 +9,18 @@ const Jobs = () => {
   const navigation = useNavigation();
   const { signOut } = useAuth();
   const { user } = useUser();
+
+  if (!user) {
+    return null;
+  }
+
   return (
     <View className="flex-1 justify-center items-center">
       <TouchableOpacity
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
       >
         <Text className=" ">Index</Text>
-        <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
+        <Text>Hello {user.emailAddresses[0].emailAddress}</Text>
         <Button title="sign out" onPress={() => signOut()} />
       </TouchableOpacity>
     </View>

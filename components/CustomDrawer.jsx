@@ -18,12 +18,13 @@ const CustomDrawer = (props) => {
   const router = useRouter();
   const { user } = useUser();
   const [userData, setUserData] = useState("");
+  const [username, setUsername] = useState("");
   useEffect(() => {
     fetchUserData();
   }, [user]);
   const fetchUserData = async () => {
     if (!user?.primaryEmailAddress?.emailAddress) return;
-    
+
     const email = user.primaryEmailAddress.emailAddress;
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("email", "==", email));
@@ -33,15 +34,19 @@ const CustomDrawer = (props) => {
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          setUserData(data || {}); // Ensure we always set an object
+          console.log("Fetched user data:", data);
+          setUserData(data);
+          const firstName = data.firstName || user.firstName || "";
+          const lastName = data.lastName || user.lastName || "";
+          setUsername(`${firstName} ${lastName}`.trim());
         });
       } else {
         console.log("No matching user data found");
-        setUserData({}); // Set empty object if no data found
+        setUsername(`${user.firstName || ""} ${user.lastName || ""}`.trim());
       }
     } catch (error) {
-      console.error("Error fetching user data: ", error.message);
-      setUserData({}); // Set empty object on error
+      console.error("Error fetching data:", error);
+      setUsername(`${user.firstName || ""} ${user.lastName || ""}`.trim());
     }
   };
   return (
@@ -53,17 +58,20 @@ const CustomDrawer = (props) => {
           {userData?.profileImage && userData?.profileImage !== null ? (
             <Image
               source={{ uri: userData?.profileImage }}
-              className="w-16 h-16 object-cover rounded-full"
+              className="w-20 h-20 mt-3 object-cover rounded-full"
             />
           ) : (
-            <View className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
-              <Text className="text-white text-sm">No Image</Text>
-            </View>
+            <Image
+              source={require("../assets/profile.png")}
+              className="w-20 h-20 mt-3 object-cover rounded-full"
+            />
           )}
         </TouchableOpacity>
         <View className="mb-4 mt-4">
           <Text className="text-2xl font-semibold">
-            {(userData?.firstName || "") + " " + (userData?.lastName || "")}
+            {`${userData.firstName || user.firstName || ""} ${
+              userData.lastName || user.lastName || ""
+            }`.trim() || "No Name Available"}
           </Text>
           <Text className="text-lg my-1">{userData?.headline || ""}</Text>
           <Text className="text-lg text-gray-400 font-semibold my-1">

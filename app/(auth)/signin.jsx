@@ -30,13 +30,8 @@ const SignIn = () => {
 
   const checkExistingSession = async () => {
     try {
-      if (isSignedIn) {
-        router.push("/");
-        return;
-      }
-
       const token = await getToken();
-      if (token) {
+      if (isSignedIn || token) {
         router.push("/");
       }
     } catch (error) {
@@ -124,6 +119,14 @@ const SignIn = () => {
       );
     }
   }, [isLoaded, emailAddress, password, handleAuthentication]);
+
+  if (!isLoaded) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView className="bg-white h-screen flex-1">

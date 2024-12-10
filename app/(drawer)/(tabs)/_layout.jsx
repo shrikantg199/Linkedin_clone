@@ -79,17 +79,16 @@ const TabLayout = () => {
               <View className="h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center">
                 <Text className="text-white text-sm">...</Text>
               </View>
+            ) : userData?.profileImage ? (
+              <Image
+                source={{ uri: userData.profileImage }}
+                className="h-12 w-12 rounded-full"
+              />
             ) : (
-              userData?.profileImage ? (
-                <Image
-                  source={{ uri: userData.profileImage }}
-                  className="h-12 w-12 rounded-full"
-                />
-              ) : (
-                <View className="h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center">
-                  <Text className="text-white text-sm">No Image</Text>
-                </View>
-              )
+              <Image
+                source={require("../../../assets/profile.png")}
+                className="h-12 w-12 rounded-full"
+              />
             )}
           </TouchableOpacity>
         ),
